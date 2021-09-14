@@ -28,11 +28,10 @@ var taskFormHandler = function(event) {
     // no data attribute, so create object as normal and pass to createTaskEl function
     else {
         var taskDataObj = {
-        name: taskNameInput,
-        type: taskTypeInput,
-        status: "to do"
+            name: taskNameInput,
+            type: taskTypeInput,
+            status: "to do"
         };
-        console.log(taskDataObj);
     
         createTaskEl(taskDataObj);
     }
@@ -58,7 +57,22 @@ var createTaskEl = function(taskDataObj) {
     listItemEl.appendChild(taskActionsEl);
     
     // add entire list item to list
-    tasksToDoEl.appendChild(listItemEl);
+    switch (taskDataObj.status) {
+        case "to do":
+          taskActionsEl.querySelector("select[name='status-change']").selectedIndex = 0;
+          tasksToDoEl.append(listItemEl);
+          break;
+        case "in progress":
+          taskActionsEl.querySelector("select[name='status-change']").selectedIndex = 1;
+          tasksInProgressEl.append(listItemEl);
+          break;
+        case "completed":
+          taskActionsEl.querySelector("select[name='status-change']").selectedIndex = 2;
+          tasksCompletedEl.append(listItemEl);
+          break;
+        default:
+          console.log("Something went wrong!");
+    }
 
     taskDataObj.id = taskIdCounter;
     tasks.push(taskDataObj);
